@@ -50,5 +50,5 @@ The website was built with **HTML, CSS, and JavaScript** and deployed via **Netl
 ### Local Development
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/platinum-elite-site.git
+   git clone https://github.com/eawy2021/platinum-elite-site.git
    cd platinum-elite-site
