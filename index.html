@@ -306,29 +306,53 @@
   <div class="container">
     <h2 class="section-title">What Clients Say</h2>
 
-    <!-- Existing Testimonials -->
-    <div class="reviews-grid">
+    <!-- Will be replaced by JS with live reviews -->
+    <div id="reviewsList" class="reviews-grid">
+      <!-- Fallback static items (stay if JS or API fails) -->
       <div class="review">
+        <div class="stars">★★★★★</div>
         <p>"Outstanding service! My driver was professional and the car was spotless. Will definitely book again."</p>
         <strong>- Michelle R.</strong>
       </div>
       <div class="review">
+        <div class="stars">★★★★★</div>
         <p>"They made my wedding day stress-free. Arrived early, helped with the schedule, and got us everywhere on time."</p>
-        <strong>- David & Sarah</strong>
+        <strong>- David &amp; Sarah</strong>
       </div>
     </div>
 
-    <!-- Leave a Comment -->
+    <!-- Leave a Review -->
     <div class="leave-review" style="margin-top:2rem;">
       <h3>Leave a Review</h3>
-      <form action="https://formspree.io/f/myzprzob" method="POST">
+      <form id="reviewForm" aria-label="Leave a Review" novalidate>
+        <!-- Honeypot (should remain empty) -->
+        <input type="text" name="_gotcha" autocomplete="off" tabindex="-1" style="display:none">
+
         <label>Your Name
-          <input type="text" name="name" required />
+          <input type="text" name="name" required maxlength="80" autocomplete="name">
         </label>
+
+        <label>Your Email (not shown publicly)
+          <input type="email" name="email" required maxlength="120" autocomplete="email">
+        </label>
+
         <label>Your Review
-          <textarea name="review" rows="4" required ="Share your experience with us..."></textarea>
+          <textarea name="text" rows="4" required maxlength="1000" placeholder="Share your experience with us..."></textarea>
         </label>
+
+        <label>Rating
+          <select name="stars" required>
+            <option value="" disabled selected>Select rating</option>
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </label>
+
         <button type="submit" class="btn btn--primary">Submit Review</button>
+        <p id="reviewMsg" class="small" style="margin-top:8px;"></p>
       </form>
     </div>
   </div>
