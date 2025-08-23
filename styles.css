@@ -301,3 +301,34 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   margin-top: 6px;
   color: var(--muted);
 }
+
+/* ===== Mobile form fixes ===== */
+@media (max-width: 560px) {
+  /* Stack two-column form rows on narrow screens */
+  .grid.two {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* Ensure fields fill the container width */
+  .contact-form label,
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+  }
+
+  /* Slightly tighter padding so fields don’t crowd */
+  .contact-form {
+    padding: 14px;
+  }
+}
+
+/* Prevent any accidental shrinking that can cause overlap */
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  min-width: 0;        /* lets grid shrink without overflow */
+  box-sizing: border-box;
+  font-size: 16px;     /* avoids iOS zoom jump */
+}
