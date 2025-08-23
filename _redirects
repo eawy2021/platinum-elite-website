@@ -1,0 +1,2 @@
+/api/reviews-get   /.netlify/functions/reviews-get   200
+/ api/reviews-post  /.netlify/functions/reviews-post  200
