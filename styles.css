@@ -284,7 +284,7 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   margin: 0 auto;               /* centers the card block */
   padding: 24px 24px;
   line-height: 1.75;            /* comfortable reading line-height */
-  text-align: left;             /* left-align for readability */
+  text-align: justify;             /* left-align for readability */
   word-break: normal;
   hyphens: auto;
 }
