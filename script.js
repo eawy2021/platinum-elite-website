@@ -240,3 +240,94 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.hidden) stop(); else start();
   });
 });
+
+// --- Render reviews from /api/reviews-get ---
+(function(){
+  const list = document.getElementById('reviewsList');
+  if (!list) return;
+
+  const esc = (s) => String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+  function render(items){
+    list.innerHTML = '';
+    items.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'review';
+      const stars = '★★★★★'.slice(0, Math.max(0, Math.min(5, r.stars || 5)));
+      card.innerHTML = `
+        <div class="stars">${esc(stars)}</div>
+        <p>"${esc(r.text)}"</p>
+        <strong>- ${esc(r.name)}</strong>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  fetch('/api/reviews-get', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : [])
+    .then(render)
+    .catch(() => { /* keep fallback content */ });
+})();
+
+// --- Handle review form submit to /api/reviews-post ---
+(function(){
+  const form = document.getElementById('reviewForm');
+  const msg = document.getElementById('reviewMsg');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = 'Submitting...';
+
+    const fd = new FormData(form);
+    const payload = {
+      name: fd.get('name'),
+      email: fd.get('email'),
+      text: fd.get('text'),
+      stars: Number(fd.get('stars')),
+      _gotcha: fd.get('_gotcha') || ''
+    };
+
+    try {
+      const res = await fetch('/api/reviews-post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Bad response');
+
+      form.reset();
+      msg.textContent = 'Thank you! Your review has been posted.';
+
+      // Refresh the list
+      const r2 = await fetch('/api/reviews-get', { cache: 'no-store' });
+      if (r2.ok) {
+        const items = await r2.json();
+        const list = document.getElementById('reviewsList');
+        if (list) {
+          list.innerHTML = '';
+          items.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'review';
+            const stars = '★★★★★'.slice(0, Math.max(0, Math.min(5, r.stars || 5)));
+            // quick inline escaping
+            const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            card.innerHTML = `
+              <div class="stars">${stars}</div>
+              <p>"${esc(r.text)}"</p>
+              <strong>- ${esc(r.name)}</strong>
+            `;
+            list.appendChild(card);
+          });
+        }
+      }
+    } catch (err) {
+      msg.textContent = 'Sorry, something went wrong. Please try again later.';
+    }
+  });
+})();
