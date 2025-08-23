@@ -1,6 +1,0 @@
-netlify/
-  functions/
-    reviews-get.js
-    reviews-post.js
-netlify.toml
-_redirects
