@@ -1,15 +1,24 @@
 // netlify/functions/reviews-get.js
 import { getStore } from '@netlify/blobs';
 
+function getStoreSafe(name) {
+  // Try default runtime wiring first
+  try { return getStore(name); } catch (e) { /* fall through */ }
+  // Fallback to explicit env config
+  const siteID = process.env.NETLIFY_SITE_ID;
+  const token  = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_API_TOKEN;
+  if (!siteID || !token) {
+    throw new Error('Blobs not configured: set NETLIFY_SITE_ID and NETLIFY_AUTH_TOKEN.');
+  }
+  return getStore({ name, siteID, token });
+}
+
 export const handler = async () => {
   try {
-    const store = getStore('reviews');
-
-    // List blob keys
-    const list = await store.list(); // { blobs: [...] }
+    const store = getStoreSafe('reviews');
+    const list = await store.list();
     const blobs = Array.isArray(list?.blobs) ? list.blobs : [];
 
-    // Read each as JSON (Netlify Blobs can return parsed JSON)
     const items = await Promise.all(
       blobs.map(async (b) => {
         try {
@@ -21,16 +30,14 @@ export const handler = async () => {
             stars: Number(r.stars) || 5,
             created_at: r.created_at || b.uploadedAt || new Date().toISOString()
           };
-        } catch (e) {
-          console.error('reviews-get: error reading blob', b.key, e);
+        } catch {
           return null;
         }
       })
     );
 
-    const reviews = items
-      .filter(Boolean)
-      .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
+    const reviews = items.filter(Boolean)
+      .sort((a,b) => (a.created_at > b.created_at ? -1 : 1))
       .slice(0, 50);
 
     return {
