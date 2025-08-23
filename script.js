@@ -240,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.hidden) stop(); else start();
   });
 });
-
 // --- Render reviews from /api/reviews-get ---
 (function(){
   const list = document.getElementById('reviewsList');
@@ -268,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  fetch('/api/reviews-get', { cache: 'no-store' })
+  fetch('/.netlify/functions/reviews-get', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : [])
     .then(render)
     .catch(() => { /* keep fallback content */ });
@@ -294,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const res = await fetch('/api/reviews-post', {
+      const res = await fetch('/netlify/functions/reviews-post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
