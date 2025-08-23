@@ -6,9 +6,3 @@
   node_bundler = "esbuild"
   external_node_modules = ["@netlify/blobs"]
 
-# Optional: CORS to avoid issues while testing
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Headers = "Content-Type"
