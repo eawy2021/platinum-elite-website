@@ -261,3 +261,43 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   .areas-slideshow{ height: 300px; }
 }
 
+/* ===== About Us: spacing & alignment ===== */
+#about .about-container {
+  /* keeps the section nicely centered */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#about .section-title {
+  text-align: center;
+}
+
+#about .section-intro {
+  max-width: 800px;
+  margin: 0 auto 20px auto; /* centers and adds bottom space */
+  text-align: center;
+  color: var(--muted);
+}
+
+#about .about-card {
+  max-width: 900px;
+  margin: 0 auto;               /* centers the card block */
+  padding: 24px 24px;
+  line-height: 1.75;            /* comfortable reading line-height */
+  text-align: left;             /* left-align for readability */
+  word-break: normal;
+  hyphens: auto;
+}
+
+#about .about-card p {
+  margin: 0 0 14px 0;           /* consistent paragraph spacing */
+}
+
+#about .about-card p:last-child {
+  margin-bottom: 0;
+}
+
+#about .about-card .about-closing {
+  margin-top: 6px;
+  color: var(--muted);
+}
