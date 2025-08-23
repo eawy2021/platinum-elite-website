@@ -1,5 +1,7 @@
 // netlify/functions/reviews-post.js
-export async function handler(event) {
+import { getStore } from '@netlify/blobs';
+
+export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -7,7 +9,7 @@ export async function handler(event) {
   try {
     const data = JSON.parse(event.body || '{}');
 
-    // Honeypot (should be empty)
+    // Simple honeypot (bots will fill this)
     if (data._gotcha && String(data._gotcha).trim() !== '') {
       return { statusCode: 200, body: JSON.stringify({ ok: true }) };
     }
@@ -17,7 +19,7 @@ export async function handler(event) {
     const text = (data.text || '').trim();
     const stars = Number(data.stars);
 
-    // Basic validation
+    // Validation
     if (!name || !email || !text || !stars) {
       return { statusCode: 400, body: 'Missing required fields' };
     }
@@ -33,20 +35,21 @@ export async function handler(event) {
 
     const review = {
       name,
-      email, // stored but NOT rendered
+      email, // stored but not rendered
       text,
       stars,
       created_at: new Date().toISOString(),
-      ip: event.headers['x-nf-client-connection-ip']
-        || event.headers['client-ip']
-        || event.headers['x-forwarded-for']
-        || ''
+      ip:
+        event.headers['x-nf-client-connection-ip'] ||
+        event.headers['client-ip'] ||
+        event.headers['x-forwarded-for'] ||
+        ''
     };
 
-    const { getStore } = await import('@netlify/blobs');
     const store = getStore('reviews');
-
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    // Store as JSON string so we always parse consistently on read
     await store.set(id, JSON.stringify(review), { metadata: { type: 'review' } });
 
     return {
@@ -58,4 +61,4 @@ export async function handler(event) {
     console.error('reviews-post failed:', err);
     return { statusCode: 500, body: 'Server error (reviews-post)' };
   }
-}
+};

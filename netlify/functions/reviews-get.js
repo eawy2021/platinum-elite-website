@@ -1,16 +1,18 @@
 // netlify/functions/reviews-get.js
-export async function handler() {
+import { getStore } from '@netlify/blobs';
+
+export const handler = async () => {
   try {
-    const { getStore } = await import('@netlify/blobs');
     const store = getStore('reviews');
 
+    // List blob keys
     const list = await store.list(); // { blobs: [...] }
     const blobs = Array.isArray(list?.blobs) ? list.blobs : [];
 
+    // Read each as JSON (Netlify Blobs can return parsed JSON)
     const items = await Promise.all(
       blobs.map(async (b) => {
         try {
-          // Read as JSON (avoids JSON.parse crashes)
           const r = await store.get(b.key, { type: 'json' });
           if (!r) return null;
           return {
@@ -20,7 +22,7 @@ export async function handler() {
             created_at: r.created_at || b.uploadedAt || new Date().toISOString()
           };
         } catch (e) {
-          console.error('Error reading blob', b.key, e);
+          console.error('reviews-get: error reading blob', b.key, e);
           return null;
         }
       })
@@ -33,14 +35,11 @@ export async function handler() {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-store'
-      },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
       body: JSON.stringify(reviews)
     };
   } catch (err) {
     console.error('reviews-get failed:', err);
     return { statusCode: 500, body: 'Server error (reviews-get)' };
   }
-}
+};
