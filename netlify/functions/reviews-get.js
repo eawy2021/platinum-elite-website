@@ -10,9 +10,9 @@ export async function handler() {
     const items = await Promise.all(
       blobs.map(async (b) => {
         try {
-          // Read as JSON (avoids JSON.parse errors)
+          // Read as JSON (avoids JSON.parse crashes)
           const r = await store.get(b.key, { type: 'json' });
-          if (!r) return null; // empty or missing
+          if (!r) return null;
           return {
             name: r.name,
             text: r.text,

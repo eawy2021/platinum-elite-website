@@ -33,7 +33,7 @@ export async function handler(event) {
 
     const review = {
       name,
-      email,   // stored; you’re not rendering it publicly
+      email, // stored but NOT rendered
       text,
       stars,
       created_at: new Date().toISOString(),
