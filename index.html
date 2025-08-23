@@ -287,12 +287,30 @@
         <figcaption>Oriole Park at Camden Yards, Baltimore</figcaption>
       </figure>
 
-      <!--MLK Statue-->
-      <figure class="areas-slide" data-caption="Martin Luther King Jr. Memorial, DC"
-              style="--img:url('https://www.thoughtco.com/thmb/Vx8zH2TMikhum_txuJLZLMCXPTM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/MLK-525595268-587690bc5f9b584db3acbb7a.jpg');">
-        <figcaption>Martin Luther King Jr. Memorial, DC</figcaption>
+      <!--MGM National Harbor Hotel & Casino-->
+      <figure class="areas-slide" data-caption="MGM National Harbor, Maryland"
+              style="--img:url('https://thelibrary.mgmresorts.com/transform/ADYObwwog38/20170611_MGM_NIKON_0335');">
+        <figcaption>MGM National Harbor, Maryland</figcaption>
       </figure>
-
+      <!--Wolf Trap National Park for the Performing Arts-->
+      <figure class="areas-slide" data-caption="Wolf Trap National Park for the Performing Arts, Virginia"
+              style="--img:url('https://res.cloudinary.com/simpleview/image/upload/v1462911406/clients/fairfax/3CB26E641FFAD07887E5EF1CB1EE6E98_d1bb49b1-3015-42ec-b7fc-73495ecf6997.jpg');">
+        <figcaption>Wolf Trap National Park for the Performing Arts, Virginia</figcaption>
+      </figure>
+      <!--Waldorf Astoria-->
+      <figure class="areas-slide" data-caption="Waldorf Astoria, Washington DC"
+              style="--img:url('https://s3.us-west-1.amazonaws.com/assets.curatorstravel.com/original/hotels/1007/1664935685049.webp');">
+        <figcaption>Waldorf Astoria, Washington DC</figcaption>
+      </figure>
+      <!--Stone Tower Winery-->
+      <figure class="areas-slide" data-caption="Stone Tower Winery, Virginia"
+              style="--img:url('https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrDLyuwEktl6kMfudhjRef5xUjn4jRUqeBaJOlVq9jg1Qt_C6skpDblG0BEA2F5n-LA_c5VLRMuVmIenaRW5nCe3TVeKSD8AE2-qtQbU_KH5zjxmS-McKqYoHw-Lu-n26t1NgP8PA=s680-w680-h510-rw');">
+        <figcaption>Stone Tower Winery, Virginia</figcaption>
+      </figure>
+      <!--The Wharf-->
+      <figure class="areas-slide" data-caption="The Wharf, Washington DC"
+              style="--img:url('https://s3.amazonaws.com/www-wharfdc-com-production/media/filer_public/5c/94/5c944b3a-134c-4dc0-9d87-627ae18315d4/completed-wharf-hero-2022d.jpg');">
+        <figcaption>The Wharf, Washington DC</figcaption>
 
 
       <!-- Controls -->
@@ -365,113 +383,150 @@
 </section>
 
     <!-- ===== CONTACT / RFQ / PAYMENTS ===== -->
-    <section id="contact" class="section section--alt">
-      <div class="container">
-        <h2 class="section-title">Contact, Quotes & Payments</h2>
-        <div class="contact-grid">
-          <!-- Contact/Payments -->
-          <div class="contact-card">
-            <h3>Call or Text</h3>
-            <p><a class="tel" href="tel:+12405839969">(240) 583-9969</a><br/>
-               <a class="mailto" href="mailto:platinumeliteecs@gmail.com">platinumeliteecs@gmail.com</a></p>
-            <p class="hours">Open 24/7 • Vehicles operate around the clock</p>
-            <div class="grid two" style="margin-top:8px">
-              <a class="btn btn--primary" href="#contact" id="cta-contact">Request a Quote</a>
-              <a class="btn btn--ghost" href="payment.html">Pay Invoice / Deposit</a>
-            </div>
-            <p class="small" style="margin-top:8px">We accept secure payments and invoices via Square.</p>
-            <div style="margin-top:14px">
-            </div>
-          </div>
-
-          <!-- RFQ FORM -->
-          <form class="contact-form" action="https://formspree.io/f/myzprzob" method="POST" aria-label="Request a Quote Form">
-            <!-- Identity -->
-            <label>Full Name
-              <input required name="name" type="text" autocomplete="name" />
-            </label>
-            <label>Phone
-              <input required name="phone" type="tel" autocomplete="tel" />
-            </label>
-            <label>Email
-              <input required name="email" type="email" autocomplete="email" />
-            </label>
-
-            <!-- Service Type -->
-            <label>Service Type
-              <select name="service_type" id="service_type" required>
-                <option value="" selected disabled>Select a service</option>
-                <option>Executive Protection Transport</option>
-                <option>Airport Transfers</option>
-                <option>Corporate Travel</option>
-                <option>Weddings</option>
-                <option>Proms & Special Events</option>
-                <option>Sporting Events</option>
-                <option>Night Out on the town</option>
-                <option>Conferences + Corporate Events</option>
-                <option>Bachelorette + Bachelor Parties</option>
-                <option>Festivals + Concerts</option>
-                <option>Winery + Brewery Tours</option>
-                <option>Other / Not Sure</option>
-              </select>
-            </label>
-
-            <!-- Trip basics -->
-            <div class="grid two">
-              <label>Pickup Date
-                <input required name="pickup_date" type="date" />
-              </label>
-              <label>Pickup Time
-                <input required name="pickup_time" type="time" />
-              </label>
-            </div>
-
-            <!-- Locations -->
-            <div class="grid two">
-              <label>Pickup Location
-                <input required name="pickup" type="text" placeholder="Address, hotel, or airport" />
-              </label>
-              <label>Dropoff Location
-                <input required name="dropoff" type="text" placeholder="Address or venue" />
-              </label>
-            </div>
-
-            <!-- Party & vehicle -->
-            <div class="grid two">
-              <label>Passengers
-                <input required name="passengers" type="number" min="1" max="12" />
-              </label>
-              <label>Vehicle Preference
-                <select name="vehicle">
-                  <option value="">Any</option>
-                  <option>Luxury Black Truck</option>
-                  <option>Luxury Sprinter</option>
-                </select>
-              </label>
-            </div>
-
-            <!-- Notes -->
-            <label>Notes
-              <textarea name="notes" rows="4" placeholder="Flight number, child seats, special requests…"></textarea>
-            </label>
-
-            <!-- Agree to policy -->
-            <label style="display:flex;align-items:flex-start;gap:8px">
-              <input type="checkbox" required name="agree_policy" style="margin-top:4px" />
-              <span>I agree to the <a href="payment.html#policy">Damage, Cleaning & Incidentals Policy</a>.</span>
-            </label>
-
-            <!-- Email subject -->
-            <input type="hidden" name="_subject" value="New booking/quote request — Platinum Elite Executive Car Service" />
-
-            <!-- Submit -->
-            <button class="btn btn--primary" type="submit">Request a Quote</button>
-            <p class="form-small">Prefer to request by phone? <a href="tel:+12405839969">Call us now</a>.</p>
-          </form>
+<section id="contact" class="section section--alt">
+  <div class="container">
+    <h2 class="section-title">Contact, Quotes & Payments</h2>
+    <div class="contact-grid">
+      <!-- Contact/Payments -->
+      <div class="contact-card">
+        <h3>Call or Text</h3>
+        <p>
+          <a class="tel" href="tel:+12405839969">(240) 583-9969</a><br/>
+          <a class="mailto" href="mailto:platinumeliteecs@gmail.com">platinumeliteecs@gmail.com</a>
+        </p>
+        <p class="hours">Open 24/7 • Vehicles operate around the clock</p>
+        <div class="grid two" style="margin-top:8px">
+          <a class="btn btn--primary" href="#contact" id="cta-contact">Request a Quote</a>
+          <a class="btn btn--ghost" href="payment.html">Pay Invoice / Deposit</a>
         </div>
+        <p class="small" style="margin-top:8px">We accept secure payments and invoices via Square.</p>
+        <div style="margin-top:14px"></div>
       </div>
-    </section>
-  </main>
+
+      <!-- RFQ FORM -->
+      <form class="contact-form" action="https://formspree.io/f/myzprzob" method="POST" aria-label="Request a Quote Form">
+        <!-- Identity -->
+        <label>Full Name
+          <input required name="name" type="text" autocomplete="name" />
+        </label>
+        <label>Phone
+          <input required name="phone" type="tel" autocomplete="tel" />
+        </label>
+        <label>Email
+          <input required name="email" type="email" autocomplete="email" />
+        </label>
+
+        <!-- Service Type -->
+        <label>Service Type
+          <select name="service_type" id="service_type" required>
+            <option value="" selected disabled>Select a service</option>
+            <option>Executive Protection Transport</option>
+            <option>Airport Transfers</option>
+            <option>Corporate Travel</option>
+            <option>Weddings</option>
+            <option>Proms & Special Events</option>
+            <option>Sporting Events</option>
+            <option>Night Out on the town</option>
+            <option>Conferences + Corporate Events</option>
+            <option>Bachelorette + Bachelor Parties</option>
+            <option>Festivals + Concerts</option>
+            <option>Winery + Brewery Tours</option>
+            <option>Other / Not Sure</option>
+          </select>
+        </label>
+
+        <!-- Trip Type -->
+        <div class="trip-type-group">
+          <span class="label">Trip Type</span>
+          <div class="trip-type">
+            <label><input type="radio" name="trip_type" value="One Way" required checked> One Way</label>
+            <label><input type="radio" name="trip_type" value="Round Trip"> Round Trip</label>
+            <label><input type="radio" name="trip_type" value="Multi-Stops"> Multi-Stops</label>
+          </div>
+        </div>
+
+        <!-- Trip basics -->
+        <div class="grid two">
+          <label>Pickup Date
+            <input required name="pickup_date" type="date" />
+          </label>
+          <label>Pickup Time
+            <input required name="pickup_time" type="time" />
+          </label>
+        </div>
+
+        <!-- Locations -->
+        <div class="grid two">
+          <label>Pickup Location
+            <input required name="pickup" type="text" placeholder="Address, hotel, or airport" />
+          </label>
+          <label>Dropoff Location
+            <input required name="dropoff" type="text" placeholder="Address or venue" />
+          </label>
+        </div>
+
+        <!-- Multi-Stops (conditionally shown) -->
+        <div id="multiStopsFields" class="multi-stops" hidden>
+          <div class="multi-stops-head">
+            <span>Additional Stops</span>
+            <button type="button" class="btn btn--ghost btn--small" id="addStopBtn">+ Add Stop</button>
+          </div>
+          <div id="stopsList" class="stops-list">
+            <!-- Dynamic stop rows injected by JS -->
+          </div>
+          <p class="small">Add each intermediate stop (pickup/drop) in order. You can add or remove as needed.</p>
+        </div>
+
+        <!-- Round Trip (conditionally shown) -->
+        <div id="roundTripFields" class="round-trip" hidden>
+          <label>Return Pickup Location
+            <input name="return_pickup" type="text" placeholder="Address for return pickup" />
+          </label>
+          <div class="grid two">
+            <label>Return Date
+              <input name="return_date" type="date" />
+            </label>
+            <label>Return Time
+              <input name="return_time" type="time" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Party & vehicle -->
+        <div class="grid two">
+          <label>Passengers
+            <input required name="passengers" type="number" min="1" max="12" />
+          </label>
+          <label>Vehicle Preference
+            <select name="vehicle">
+              <option value="">Any</option>
+              <option>Luxury Black SUV</option>
+              <option>Luxury Sprinter</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Notes -->
+        <label>Notes
+          <textarea name="notes" rows="4" placeholder="Airline, flight number, child seats, special requests…"></textarea>
+        </label>
+
+        <!-- Agree to policy -->
+        <label style="display:flex;align-items:flex-start;gap:8px">
+          <input type="checkbox" required name="agree_policy" style="margin-top:4px" />
+          <span>I agree to the <a href="payment.html#policy">Damage, Cleaning & Incidentals Policy</a>.</span>
+        </label>
+
+        <!-- Email subject -->
+        <input type="hidden" name="_subject" value="New booking/quote request — Platinum Elite Executive Car Service" />
+
+        <!-- Submit -->
+        <button class="btn btn--primary" type="submit">Request a Quote</button>
+        <p class="form-small">Prefer to request by phone? <a href="tel:+12405839969">Call us now</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">

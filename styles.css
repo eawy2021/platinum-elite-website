@@ -332,3 +332,45 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   box-sizing: border-box;
   font-size: 16px;     /* avoids iOS zoom jump */
 }
+
+/* Trip type layout */
+.trip-type-group { margin: 4px 0 8px 0; }
+.trip-type-group .label { display:block; font-weight:600; margin-bottom:6px; }
+.trip-type {
+  display:flex; gap:12px; flex-wrap:wrap;
+  background: var(--card); border:1px solid var(--border);
+  padding:10px 12px; border-radius:10px;
+}
+.trip-type label { display:flex; align-items:center; gap:8px; }
+
+/* Multi-stops / Round-trip blocks */
+.multi-stops, .round-trip {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0f141b;
+}
+
+.multi-stops-head {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom: 10px;
+}
+
+.btn--small { padding: 6px 10px; font-size: .9rem; }
+
+/* Dynamic stops rows */
+.stops-list { display: grid; gap: 8px; }
+.stop-row {
+  display: grid; gap: 8px;
+  grid-template-columns: 1fr auto;
+}
+.stop-row input { width: 100%; }
+.stop-row .remove-stop {
+  align-self: center;
+  padding: 6px 10px;
+}
+@media (max-width: 560px) {
+  .stop-row { grid-template-columns: 1fr; }
+  .stop-row .remove-stop { justify-self: start; }
+}

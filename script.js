@@ -315,3 +315,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 });
+
+// === Trip Type: toggle conditional blocks + dynamic multi-stops ===
+(function () {
+  const tripTypeInputs = document.querySelectorAll('input[name="trip_type"]');
+  const multiStops = document.getElementById('multiStopsFields');
+  const roundTrip = document.getElementById('roundTripFields');
+  const addStopBtn = document.getElementById('addStopBtn');
+  const stopsList = document.getElementById('stopsList');
+
+  if (!tripTypeInputs.length) return;
+
+  function show(el) { if (el) el.hidden = false; }
+  function hide(el) { if (el) el.hidden = true; }
+
+  function onTypeChange(value) {
+    if (value === 'Multi-Stops') {
+      show(multiStops); hide(roundTrip);
+    } else if (value === 'Round Trip') {
+      hide(multiStops); show(roundTrip);
+    } else {
+      hide(multiStops); hide(roundTrip);
+    }
+  }
+
+  tripTypeInputs.forEach(inp => {
+    inp.addEventListener('change', () => onTypeChange(inp.value));
+    if (inp.checked) onTypeChange(inp.value); // initialize on load
+  });
+
+  // Create a new stop row
+  function createStopRow(initialValue = '') {
+    const div = document.createElement('div');
+    div.className = 'stop-row';
+    div.innerHTML = `
+      <input type="text" name="extra_stops[]" placeholder="Stop address (in order)" value="${initialValue.replace(/"/g,'&quot;')}" />
+      <button type="button" class="btn btn--ghost btn--small remove-stop">Remove</button>
+    `;
+    const removeBtn = div.querySelector('.remove-stop');
+    removeBtn.addEventListener('click', () => div.remove());
+    return div;
+  }
+
+  if (addStopBtn && stopsList) {
+    addStopBtn.addEventListener('click', () => {
+      stopsList.appendChild(createStopRow());
+    });
+  }
+})();
