@@ -340,50 +340,42 @@
       </div>
     </div>
 
-
     <!-- Leave a Review -->
-<div class="leave-review" style="margin-top:2rem;">
-  <h3>Leave a Review</h3>
-  <!-- NOTE: no action attribute — JS handles the submit -->
-  <form id="reviewForm" enctype="multipart/form-data">
-    <label>Your Name
-      <input type="text" name="name" required />
-    </label>
-    <label>Your Email
-      <input type="email" name="email" required />
-    </label>
-    <label>Rating
-      <select name="stars" required>
-        <option value="5" selected>★★★★★ (5)</option>
-        <option value="4">★★★★☆ (4)</option>
-        <option value="3">★★★☆☆ (3)</option>
-        <option value="2">★★☆☆☆ (2)</option>
-        <option value="1">★☆☆☆☆ (1)</option>
-      </select>
-    </label>
-    <label>Your Review
-      <textarea name="text" rows="4" placeholder="Share your experience..." required></textarea>
-    </label>
+    <div class="leave-review" style="margin-top:2rem;">
+      <h3>Leave a Review</h3>
+      <form id="reviewForm" novalidate>
+        <!-- Honeypot (should remain empty) -->
+        <input type="text" name="_gotcha" autocomplete="off" tabindex="-1" style="display:none">
 
-    <!-- New: optional photo -->
-    <label>Photo (optional)
-      <input type="file" name="photo" accept="image/*" />
-    </label>
+        <label>Your Name
+          <input type="text" name="name" required maxlength="80" autocomplete="name">
+        </label>
 
-    <!-- Honeypot (spam trap) -->
-    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+        <label>Your Email (not shown publicly)
+          <input type="email" name="email" required maxlength="120" autocomplete="email">
+        </label>
 
-    <button type="submit" class="btn btn--primary">Submit Review</button>
-    <p id="reviewMsg" class="small" style="margin-top:8px;"></p>
+        <label>Your Review
+          <textarea name="text" rows="4" required maxlength="1000" placeholder="Share your experience with us..."></textarea>
+        </label>
 
-    <!-- Wherever your reviews render -->
-<div id="reviewsList" class="reviews-grid">
-  <!-- JS fills this dynamically -->
-</div>
+        <label>Rating
+          <select name="stars" required>
+            <option value="" disabled selected>Select rating</option>
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </label>
 
-  </form>
-</div>
-
+        <button type="submit" class="btn btn--primary">Submit Review</button>
+        <p id="reviewMsg" class="small" style="margin-top:8px;"></p>
+      </form>
+    </div>
+  </div>
+</section>
 
     <!-- ===== CONTACT / RFQ / PAYMENTS ===== -->
 <section id="contact" class="section section--alt">

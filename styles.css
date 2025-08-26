@@ -388,18 +388,3 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   vertical-align: middle;
 }
 
-.review {
-  background: var(--card);
-  padding: 18px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
-.review-img {
-  width: 100%;
-  max-height: 220px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  border: 1px solid var(--border);
-}
-.stars { color: var(--brand); margin-bottom: 6px; font-weight: 700; }

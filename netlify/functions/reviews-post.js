@@ -1,103 +1,65 @@
 // netlify/functions/reviews-post.js
-import { blobs } from '@netlify/blobs';
-import { Buffer } from 'node:buffer';
-import Busboy from 'busboy';
+import { getStore } from '@netlify/blobs';
 
-export const config = {
-  path: '/reviews-post',
-  method: 'POST',
-};
-
-function parseMultipart(event) {
-  return new Promise((resolve, reject) => {
-    try {
-      const bb = Busboy({ headers: event.headers });
-      const fields = {};
-      const files = {};
-
-      bb.on('file', (name, file, info) => {
-        const chunks = [];
-        const { filename, mimeType } = info || {};
-        file.on('data', (d) => chunks.push(d));
-        file.on('end', () => {
-          files[name] = {
-            buffer: Buffer.concat(chunks),
-            filename: filename || 'upload.bin',
-            mimeType: mimeType || 'application/octet-stream'
-          };
-        });
-      });
-
-      bb.on('field', (name, val) => { fields[name] = val; });
-      bb.on('finish', () => resolve({ fields, files }));
-      bb.end(Buffer.from(event.body, event.isBase64Encoded ? 'base64' : 'utf8'));
-    } catch (e) { reject(e); }
-  });
+function getStoreSafe(name) {
+  try { return getStore(name); } catch (e) { /* fall through */ }
+  const siteID = process.env.NETLIFY_SITE_ID;
+  const token  = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_API_TOKEN;
+  if (!siteID || !token) {
+    throw new Error('Blobs not configured: set NETLIFY_SITE_ID and NETLIFY_AUTH_TOKEN.');
+  }
+  return getStore({ name, siteID, token });
 }
 
-export default async (event, context) => {
+export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    // Parse multipart form
-    const { fields, files } = await parseMultipart(event);
-    const { name = '', email = '', text = '', stars = '5', _gotcha = '' } = fields;
+    const data = JSON.parse(event.body || '{}');
 
-    if (_gotcha) return { statusCode: 400, body: 'Spam detected' };
-    if (!name || !email || !text) return { statusCode: 400, body: 'Missing fields' };
-
-    // Optional: store photo if provided
-    let photoUrl = '';
-    const photo = files.photo;
-    if (photo && photo.buffer && photo.buffer.length > 0) {
-      const ext = (photo.filename || '').split('.').pop()?.toLowerCase() || 'jpg';
-      const key = `review-photos/${Date.now()}-${Math.random().toString(16).slice(2)}.${ext}`;
-
-      // Store binary in Netlify Blobs (public bucket)
-      await blobs.set(key, photo.buffer, {
-        contentType: photo.mimeType || 'image/jpeg',
-        addRandomSuffix: false,
-        // public store so it returns a public URL
-        // (Netlify Blobs uses the site’s public blob URL automatically)
-      });
-
-      // Build public URL for this blob
-      const { url } = blobs.getStore();
-      photoUrl = `${url}/${key}`;
+    // honeypot
+    if (data._gotcha && String(data._gotcha).trim() !== '') {
+      return { statusCode: 200, body: JSON.stringify({ ok: true }) };
     }
 
-    // Fetch existing reviews
-    const store = blobs;
-    const keyReviews = 'data/reviews.json';
-    let items = [];
-    const existing = await store.get(keyReviews, { type: 'json' });
-    if (existing) items = existing;
+    const name  = (data.name  || '').trim();
+    const email = (data.email || '').trim();
+    const text  = (data.text  || '').trim();
+    const stars = Number(data.stars);
 
-    // Push new review
+    if (!name || !email || !text || !stars) {
+      return { statusCode: 400, body: 'Missing required fields' };
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { statusCode: 400, body: 'Invalid email' };
+    }
+    if (stars < 1 || stars > 5) {
+      return { statusCode: 400, body: 'Stars must be 1–5' };
+    }
+
     const review = {
-      id: `r_${Date.now()}`,
-      name, email, text,
-      stars: Math.max(1, Math.min(5, Number(stars) || 5)),
-      photoUrl,
-      ts: new Date().toISOString()
+      name, email, text, stars,
+      created_at: new Date().toISOString(),
+      ip:
+        event.headers['x-nf-client-connection-ip'] ||
+        event.headers['client-ip'] ||
+        event.headers['x-forwarded-for'] || ''
     };
-    items.unshift(review);
 
-    // Save back
-    await store.set(keyReviews, JSON.stringify(items), {
-      contentType: 'application/json; charset=utf-8',
-      addRandomSuffix: false
-    });
+    const store = getStoreSafe('reviews');
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+
+    await store.set(id, JSON.stringify(review), { metadata: { type: 'review' } });
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: true, review })
+      body: JSON.stringify({ ok: true, id })
     };
   } catch (err) {
-    console.error('reviews-post error:', err);
-    return { statusCode: 500, body: 'Server error' };
+    console.error('reviews-post failed:', err);
+    return { statusCode: 500, body: 'Server error (reviews-post)' };
   }
 };
