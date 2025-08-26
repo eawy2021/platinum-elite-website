@@ -1,14 +1,15 @@
 /* same as starter, with high-quality dark theme */ 
 :root {
-  --bg: #0b0f14;
-  --bg-alt: #11161d;
-  --text: #e7edf6;
-  --muted: #b7c4d6;
-  --brand: #17a2ff;
+  --bg: #151b1f;        /* lighter than #0b0f14 */
+  --bg-alt: #1d242f;    /* lighter than #11161d */
+  --text: #f0f4fa;      /* keep bright */
+  --muted: #c8d2e0;     /* softer muted text */
+  --brand: #17a2ff;     /* your blue stays the same */
   --brand-contrast: #001b2b;
-  --card: #151b24;
-  --border: #243041;
+  --card: #1f2733;      /* lighter card background */
+  --border: #364153;    /* lighter borders */
 }
+
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
