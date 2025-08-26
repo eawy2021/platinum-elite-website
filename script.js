@@ -258,63 +258,63 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * 12) REVIEWS: SUBMIT (uses /api/* via _redirects)
    * --------------------------------- */
-  (function wireReviewForm() {
-    const form = document.getElementById('reviewForm');
-    const msg  = document.getElementById('reviewMsg');
-    if (!form || !msg) return;
+  // --- Handle review form submit to Netlify Function (with photo) ---
+(function(){
+  const form = document.getElementById('reviewForm');
+  const msg = document.getElementById('reviewMsg');
+  const list = document.getElementById('reviewsList');
+  if (!form || !list) return;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msg.textContent = 'Submitting...';
+  const esc = (s) => String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-      const fd = new FormData(form);
-      const payload = {
-        name: fd.get('name'),
-        email: fd.get('email'),
-        text: fd.get('text'),
-        stars: Number(fd.get('stars')),
-        _gotcha: fd.get('_gotcha') || ''
-      };
-
-      try {
-        const res = await fetch('/api/reviews-post', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) throw new Error('Bad response');
-
-        form.reset();
-        msg.textContent = 'Thank you! Your review has been posted.';
-
-        // Refresh the list
-        const r2 = await fetch('/api/reviews-get', { cache: 'no-store' });
-        if (r2.ok) {
-          const items = await r2.json();
-          const list = document.getElementById('reviewsList');
-          if (list) {
-            list.innerHTML = '';
-            items.forEach(r => {
-              const card = document.createElement('div');
-              card.className = 'review';
-              const stars = '★★★★★'.slice(0, Math.max(0, Math.min(5, Number(r.stars) || 5)));
-              const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-              card.innerHTML = `
-                <div class="stars">${stars}</div>
-                <p>"${esc(r.text)}"</p>
-                <strong>- ${esc(r.name)}</strong>
-              `;
-              list.appendChild(card);
-            });
-          }
-        }
-      } catch (err) {
-        msg.textContent = 'Sorry, something went wrong. Please try again later.';
-      }
+  function render(items){
+    list.innerHTML = '';
+    items.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'review';
+      const stars = '★★★★★'.slice(0, Math.max(0, Math.min(5, r.stars || 5)));
+      card.innerHTML = `
+        ${r.photoUrl ? `<img class="review-img" src="${esc(r.photoUrl)}" alt="Client photo" loading="lazy">` : ''}
+        <div class="stars">${esc(stars)}</div>
+        <p>"${esc(r.text || '')}"</p>
+        <strong>- ${esc(r.name || 'Anonymous')}</strong>
+      `;
+      list.appendChild(card);
     });
-  })();
-});
+  }
+
+  async function refresh(){
+    try {
+      const r = await fetch('/.netlify/functions/reviews-get', { cache: 'no-store' });
+      if (r.ok) render(await r.json());
+    } catch {}
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = 'Submitting...';
+
+    const fd = new FormData(form); // includes file if chosen
+
+    try {
+      const res = await fetch('/.netlify/functions/reviews-post', {
+        method: 'POST',
+        body: fd
+      });
+      if (!res.ok) throw new Error('Bad response');
+
+      form.reset();
+      msg.textContent = 'Thank you! Your review has been posted.';
+      await refresh();
+    } catch (err) {
+      msg.textContent = 'Sorry, something went wrong. Please try again later.';
+    }
+  });
+
+  // Initial load
+  refresh();
+})();
 
 // === Trip Type: toggle conditional blocks + dynamic multi-stops ===
 (function () {
@@ -363,3 +363,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 })();
+
+})
