@@ -374,3 +374,15 @@ input:focus, select:focus, textarea:focus { outline: 3px solid #fff3; }
   .stop-row { grid-template-columns: 1fr; }
   .stop-row .remove-stop { justify-self: start; }
 }
+.social a {
+  color: var(--muted);
+  font-size: 24px;   /* size of icon */
+  transition: color 0.3s ease;
+}
+
+.social a:hover {
+  color: var(--brand); /* your signature blue */
+}
+.icon {
+  vertical-align: middle;
+}
