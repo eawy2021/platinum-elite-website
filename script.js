@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stars: Number(fd.get('stars')),
         _gotcha: fd.get('_gotcha') || ''
       };
+      console.log('Review Payload:', payload);
 
       try {
         const res = await fetch('/api/reviews-post', {
