@@ -349,7 +349,7 @@
     <!-- Leave a Review -->
     <div class="leave-review" style="margin-top:2rem;">
       <h3>Leave a Review</h3>
-      <form id="reviewForm" novalidate>
+      <form id="reviewForm" method="post" action="/api/reviews-post" novalidate>
         <!-- Honeypot (should remain empty) -->
         <input type="text" name="_gotcha" autocomplete="off" tabindex="-1" style="display:none">
 
@@ -554,6 +554,6 @@
   </footer>
 
   <!-- App JS -->
-  <script src="./script.js"></script>
+  <script src="/script.js?v=2" defer></script>
 </body>
 </html>

@@ -284,7 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(payload)
         });
 
-        if (!res.ok) throw new Error('Bad response');
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errorText || 'Review submission failed');
+        }
 
         form.reset();
         msg.textContent = 'Thank you! Your review has been posted.';
@@ -311,21 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       } catch (err) {
-  console.error('reviews-post failed:', err);
-
-  return {
-    statusCode: 500,
-    body: JSON.stringify({
-      error: err.message,
-      stack: err.stack
-    })
-  };
-//== }catch (err) {
-    //    ==msg.textContent = 'Sorry, something went wrong. Please try again later.';
-    //  ==}
-    //==});
-  //==})();
-//==});
+        console.error('Review submission failed:', err);
+        msg.textContent = err.message;
+      }
+    });
+  })();
+});
 
 // === Trip Type: toggle conditional blocks + dynamic multi-stops ===
 (function () {
