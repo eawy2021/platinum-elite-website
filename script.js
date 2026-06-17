@@ -311,11 +311,21 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       } catch (err) {
-        msg.textContent = 'Sorry, something went wrong. Please try again later.';
-      }
-    });
-  })();
-});
+  console.error('reviews-post failed:', err);
+
+  return {
+    statusCode: 500,
+    body: JSON.stringify({
+      error: err.message,
+      stack: err.stack
+    })
+  };
+//== }catch (err) {
+    //    ==msg.textContent = 'Sorry, something went wrong. Please try again later.';
+    //  ==}
+    //==});
+  //==})();
+//==});
 
 // === Trip Type: toggle conditional blocks + dynamic multi-stops ===
 (function () {
