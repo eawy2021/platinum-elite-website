@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!res.ok) {
           const errText = await res.text();
-          throw new Error(errorText || 'Review submission failed');
+          throw new Error(errText || 'Review submission failed');
         }
 
         form.reset();
