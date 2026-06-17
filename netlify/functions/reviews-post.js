@@ -60,6 +60,9 @@ export const handler = async (event) => {
     };
   } catch (err) {
     console.error('reviews-post failed:', err);
-    return { statusCode: 500, body: 'Server error (reviews-post)' };
+    return { 
+      statusCode: 500, 
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({error: err.message}) };
   }
 };
